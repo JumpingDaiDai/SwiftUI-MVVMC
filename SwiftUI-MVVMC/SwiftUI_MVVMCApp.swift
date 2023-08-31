@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct SwiftUI_MVVMCApp: App {
+    
+    @StateObject var homeFlowCoordinator = HomeFlowCoordinator(webService: WebService())
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            homeFlowCoordinator.build()
+                .environmentObject(homeFlowCoordinator)
         }
     }
 }
