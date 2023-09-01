@@ -25,7 +25,6 @@ class UserFlowCoordinator: ObservableObject {
     @ViewBuilder
     func build(page: UserPage = .user) -> some View {
         
-        let _ = print("UserFlowCoordinator.build: \(page)")
         switch page {
         case .user:
             userView()
@@ -34,6 +33,10 @@ class UserFlowCoordinator: ObservableObject {
         case .favorite:
             favoriteView()
         }
+    }
+    
+    func push(to page: UserPage) {
+        self.page = page
     }
     
     // MARK: View Creation Methods

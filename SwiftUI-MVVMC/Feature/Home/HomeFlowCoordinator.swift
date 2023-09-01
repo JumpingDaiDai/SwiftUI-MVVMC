@@ -34,13 +34,16 @@ final class HomeFlowCoordinator: ObservableObject {
     @ViewBuilder
     func build(page: HomePage = .home) -> some View {
         
-        let _ = print("HomeFlowCoordinator.build: \(page)")
         switch page {
         case .home:
             homeView()
         case .userFlow:
             userFlow()
         }
+    }
+    
+    func push(to page: HomePage) {
+        self.page = page
     }
     
     // MARK: View Creation Methods

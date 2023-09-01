@@ -18,7 +18,7 @@ struct SettingView: View {
         ZStack {
             VStack {
                 Button {
-                    userFlowCoordinator.page = .favorite
+                    userFlowCoordinator.push(to: .favorite)
                 } label: {
                     Text((settingViewModel.favorite != "") ? settingViewModel.favorite : "Choose Favorite")
                 }
@@ -28,14 +28,24 @@ struct SettingView: View {
                 .cornerRadius(10)
             }
 
-            NavigationLink(tag: UserFlowCoordinator.UserPage.favorite, selection: $userFlowCoordinator.page) {
-                userFlowCoordinator.build(page: .favorite)
-            } label: {
-                EmptyView()
-            }
-
+            bindingNavigation(to: .favorite, selection: $userFlowCoordinator.page, coordinator: userFlowCoordinator)
         }
         .navigationBarTitle("Setting", displayMode: .inline)
+    }
+}
+
+extension SettingView {
+    
+    @ViewBuilder
+    private func bindingNavigation(to page: UserFlowCoordinator.UserPage,
+                                   selection:Binding<UserFlowCoordinator.UserPage?>,
+                                   coordinator: UserFlowCoordinator) -> some View {
+        
+        NavigationLink(tag: page, selection: selection) {
+            coordinator.build(page: page)
+        } label: {
+            EmptyView()
+        }
     }
 }
 

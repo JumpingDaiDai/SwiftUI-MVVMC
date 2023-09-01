@@ -23,7 +23,7 @@ struct HomeView: View {
                     VStack (spacing: 20) {
                         Text("Go to User Page")
                             .onTapGesture {
-                                self.homeFlowCoordinator.page = .userFlow
+                                homeFlowCoordinator.push(to: .userFlow)
                             }
                     }
                     
@@ -34,13 +34,24 @@ struct HomeView: View {
                     }
                 }
                 
-                NavigationLink(tag: HomeFlowCoordinator.HomePage.userFlow, selection: $homeFlowCoordinator.page) {
-                    homeFlowCoordinator.build(page: .userFlow)
-                } label: {
-                    EmptyView()
-                }
+                bindingNavigation(to: .userFlow, selection: $homeFlowCoordinator.page, coordinator: homeFlowCoordinator)
             }
             .navigationBarTitle("Home", displayMode: .inline)
+        }
+    }
+}
+
+extension HomeView {
+    
+    @ViewBuilder
+    private func bindingNavigation(to page: HomeFlowCoordinator.HomePage,
+                                   selection:Binding<HomeFlowCoordinator.HomePage?>,
+                                   coordinator: HomeFlowCoordinator) -> some View {
+        
+        NavigationLink(tag: page, selection: selection) {
+            coordinator.build(page: page)
+        } label: {
+            EmptyView()
         }
     }
 }

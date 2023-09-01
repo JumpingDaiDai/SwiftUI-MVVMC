@@ -16,16 +16,27 @@ struct UserView: View {
         ZStack {
             Text("Go to Setting")
                 .onTapGesture {
-                    self.userFlowCoordinator.page = .setting
+                    userFlowCoordinator.push(to: .setting)
                 }
             
-            NavigationLink(tag: UserFlowCoordinator.UserPage.setting, selection: $userFlowCoordinator.page) {
-                userFlowCoordinator.build(page: .setting)
-            } label: {
-                EmptyView()
-            }
+            bindingNavigation(to: .setting, selection: $userFlowCoordinator.page, coordinator: userFlowCoordinator)
         }
         .navigationBarTitle("User", displayMode: .inline)
+    }
+}
+
+extension UserView {
+    
+    @ViewBuilder
+    private func bindingNavigation(to page: UserFlowCoordinator.UserPage,
+                                   selection:Binding<UserFlowCoordinator.UserPage?>,
+                                   coordinator: UserFlowCoordinator) -> some View {
+        
+        NavigationLink(tag: page, selection: selection) {
+            coordinator.build(page: page)
+        } label: {
+            EmptyView()
+        }
     }
 }
 
